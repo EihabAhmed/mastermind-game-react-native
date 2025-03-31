@@ -1,12 +1,32 @@
-import { Button, FlatList, Text, TouchableOpacity, View } from "react-native";
+import DigitButton from "@/components/DigitButton";
+import DigitLocation from "@/components/DigitLocation";
+import { useState } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
-  const win = 1;
+  const [win, setWin] = useState(true);
+  const [lose, setLose] = useState(false);
+
+  const [selectedDigit, setSelectedDigit] = useState(0);
+
+  const [digitsStrings, setDigitsStrings] = useState(["", "", "", ""]);
+
+  const digitClicked = (clickedDigit: string) => {
+    setDigitsStrings(
+      digitsStrings.map((digit, index) => {
+        if (index === selectedDigit) {
+          return clickedDigit;
+        } else {
+          return digit;
+        }
+      })
+    );
+  };
+
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "space-evenly",
         alignItems: "center",
       }}
     >
@@ -19,8 +39,10 @@ export default function Index() {
       >
         <Text
           style={{
-            fontSize: 30,
+            marginTop: 10,
+            fontSize: 36,
             fontWeight: "bold",
+            color: "steelblue",
           }}
         >
           Mastermind
@@ -28,18 +50,145 @@ export default function Index() {
 
         <View
           style={{
+            marginTop: 10,
             width: 150,
             height: 70,
             borderWidth: 1,
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "flex-end",
+            paddingBottom: 10,
           }}
-        ></View>
+        >
+          <DigitLocation
+            digitLocation={0}
+            selectedDigit={selectedDigit}
+            digit={digitsStrings[0]}
+            onPress={setSelectedDigit}
+          />
+
+          <DigitLocation
+            digitLocation={1}
+            selectedDigit={selectedDigit}
+            digit={digitsStrings[1]}
+            onPress={setSelectedDigit}
+          />
+
+          <DigitLocation
+            digitLocation={2}
+            selectedDigit={selectedDigit}
+            digit={digitsStrings[2]}
+            onPress={setSelectedDigit}
+          />
+
+          <DigitLocation
+            digitLocation={3}
+            selectedDigit={selectedDigit}
+            digit={digitsStrings[3]}
+            onPress={setSelectedDigit}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 20,
+          }}
+        >
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="1"
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="2"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="3"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+          }}
+        >
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="4"
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="5"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="6"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+          }}
+        >
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="7"
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="8"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="9"
+            marginStart={30}
+            onPress={digitClicked}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+          }}
+        >
+          <DigitButton
+            selectedDigit={selectedDigit}
+            digit="0"
+            onPress={digitClicked}
+          />
+        </View>
 
         <TouchableOpacity
           onPress={() => {}}
           style={{
-            paddingHorizontal: 8,
-            paddingVertical: 6,
-            borderRadius: 4,
+            marginTop: 20,
+            padding: 6,
+            borderRadius: 6,
             backgroundColor: "#666666",
             minWidth: "30%",
             alignItems: "center",
@@ -68,9 +217,14 @@ export default function Index() {
             "There",
           ]}
           renderItem={({ item }) => (
-            <Text style={{ marginBottom: 20, fontSize: 14 }}>{item}</Text>
+            <Text
+              style={{ marginBottom: 10, fontSize: 14, textAlign: "center" }}
+            >
+              {item}
+            </Text>
           )}
           style={{
+            marginTop: 10,
             height: "40%",
             flexGrow: 0,
             width: "30%",
@@ -85,10 +239,10 @@ export default function Index() {
           marginTop: 30,
           fontSize: 24,
           fontWeight: "bold",
-          color: win == 1 ? "#00ff00" : "#ff0000",
+          color: win ? "#0000ff" : "#ff0000",
         }}
       >
-        {win == 1 ? "You Win!" : win == 2 ? "You Lose!" : ""}
+        {win ? "You Win!" : lose ? "You Lose!" : ""}
       </Text>
     </View>
   );
