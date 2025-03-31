@@ -1,15 +1,63 @@
 import DigitButton from "@/components/DigitButton";
 import DigitLocation from "@/components/DigitLocation";
-import { useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
-  const [win, setWin] = useState(true);
+  const [win, setWin] = useState(false);
   const [lose, setLose] = useState(false);
 
   const [selectedDigit, setSelectedDigit] = useState(0);
 
   const [digitsStrings, setDigitsStrings] = useState(["", "", "", ""]);
+  const [solution, setSolution] = useState(["", "", "", ""]);
+
+  type Answer = {
+    answer: string;
+    result: string;
+  };
+
+  const [answers, setAnswers] = useState<Answer[]>([]);
+
+  const generateGame = () => {
+    const sol = [];
+    sol.push((Math.floor(Math.random() * 9) + 1).toString());
+
+    while (true) {
+      const num = Math.floor(Math.random() * 10).toString();
+      if (num != sol[0]) {
+        sol.push(num);
+        break;
+      }
+    }
+
+    while (true) {
+      const num = Math.floor(Math.random() * 10).toString();
+      if (num != sol[0] && num != sol[1]) {
+        sol.push(num);
+        break;
+      }
+    }
+
+    while (true) {
+      const num = Math.floor(Math.random() * 10).toString();
+      if (num != sol[0] && num != sol[1] && num != sol[2]) {
+        sol.push(num);
+        break;
+      }
+    }
+    console.log(sol);
+
+    setSolution(
+      sol.map((digit, index) => {
+        return digit;
+      })
+    );
+  };
+
+  useEffect(() => {
+    generateGame();
+  }, []);
 
   const digitClicked = (clickedDigit: string) => {
     setDigitsStrings(
@@ -23,6 +71,67 @@ export default function Index() {
     );
   };
 
+  const submitAnswer = () => {
+    for (let i = 0; i < digitsStrings.length; i++) {
+      if (digitsStrings[i] === "") {
+        Alert.alert("Invalid answer", "Please enter all digits");
+        return;
+      }
+    }
+
+    for (let i = 0; i < digitsStrings.length - 1; i++) {
+      for (let j = i + 1; j < digitsStrings.length; j++) {
+        if (digitsStrings[i] === digitsStrings[j]) {
+          Alert.alert("Invalid answer", "Digits cannot be repeated");
+          return;
+        }
+      }
+    }
+
+    let stars = 0;
+    let dots = 0;
+
+    for (let i = 0; i < digitsStrings.length; i++) {
+      for (let j = 0; j < solution.length; j++) {
+        if (digitsStrings[i] === solution[j]) {
+          if (i === j) {
+            stars++;
+          } else {
+            dots++;
+          }
+          break;
+        }
+      }
+    }
+
+    const inputAnswer =
+      digitsStrings[0] + digitsStrings[1] + digitsStrings[2] + digitsStrings[3];
+
+    let result = "";
+    // console.log(stars);
+    // console.log(dots);
+    for (let i = 0; i < stars; i++) {
+      result = result + "*";
+    }
+    for (let i = 0; i < dots; i++) {
+      result = result + ".";
+    }
+
+    const answer: Answer = {
+      answer: inputAnswer,
+      result: result,
+    };
+    setAnswers((prev) => [...prev, answer]);
+
+    if (stars === 4) {
+      setWin(true);
+    } else if (answers.length === 9) {
+      setLose(true);
+    }
+
+    // console.log(answers);
+  };
+
   return (
     <View
       style={{
@@ -32,7 +141,7 @@ export default function Index() {
     >
       <View
         style={{
-          flex: 3,
+          flex: 7,
           justifyContent: "space-evenly",
           alignItems: "center",
         }}
@@ -92,7 +201,7 @@ export default function Index() {
         <View
           style={{
             flexDirection: "row",
-            marginTop: 20,
+            marginTop: 10,
           }}
         >
           <DigitButton
@@ -104,41 +213,28 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="2"
-            marginStart={30}
+            marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="3"
-            marginStart={30}
+            marginStart={5}
             onPress={digitClicked}
           />
-        </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
           <DigitButton
             selectedDigit={selectedDigit}
             digit="4"
+            marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="5"
-            marginStart={30}
-            onPress={digitClicked}
-          />
-
-          <DigitButton
-            selectedDigit={selectedDigit}
-            digit="6"
-            marginStart={30}
+            marginStart={5}
             onPress={digitClicked}
           />
         </View>
@@ -146,47 +242,48 @@ export default function Index() {
         <View
           style={{
             flexDirection: "row",
-            marginTop: 10,
+            marginTop: 5,
           }}
         >
           <DigitButton
             selectedDigit={selectedDigit}
+            digit="6"
+            onPress={digitClicked}
+          />
+
+          <DigitButton
+            selectedDigit={selectedDigit}
             digit="7"
+            marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="8"
-            marginStart={30}
+            marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="9"
-            marginStart={30}
+            marginStart={5}
             onPress={digitClicked}
           />
-        </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
           <DigitButton
             selectedDigit={selectedDigit}
             digit="0"
+            marginStart={5}
             onPress={digitClicked}
           />
         </View>
 
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={submitAnswer}
           style={{
-            marginTop: 20,
+            marginTop: 10,
             padding: 6,
             borderRadius: 6,
             backgroundColor: "#666666",
@@ -206,22 +303,26 @@ export default function Index() {
         </TouchableOpacity>
 
         <FlatList
-          data={[
-            "Hello",
-            "World",
-            "Hi",
-            "There",
-            "Hello",
-            "World",
-            "Hi",
-            "There",
-          ]}
-          renderItem={({ item }) => (
-            <Text
-              style={{ marginBottom: 10, fontSize: 14, textAlign: "center" }}
+          data={answers}
+          renderItem={({ item, index }) => (
+            <View
+              style={{
+                flexDirection: "row",
+                marginBottom: 5,
+              }}
             >
-              {item}
-            </Text>
+              <Text>{index + 1})</Text>
+
+              <Text
+                style={{ fontSize: 14, textAlign: "center", marginStart: 10 }}
+              >
+                {item.answer}
+              </Text>
+
+              <Text style={{ fontSize: 24, marginStart: 10 }}>
+                {item.result}
+              </Text>
+            </View>
           )}
           style={{
             marginTop: 10,

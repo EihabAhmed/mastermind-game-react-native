@@ -19,16 +19,15 @@ const DigitButton = ({ selectedDigit, digit, onPress, marginStart = 0 }) => {
       style={{
         backgroundColor: "lightgray",
         marginStart: marginStart,
-        width: 30,
-        height: 30,
-        borderRadius: 6,
+        width: 50,
+        height: 50,
         alignItems: "center",
         justifyContent: "center",
       }}
     >
       <Text
         style={{
-          fontSize: 12,
+          fontSize: 16,
           fontWeight: "bold",
           color: disabled ? "gray" : "black",
         }}
