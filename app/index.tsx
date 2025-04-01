@@ -38,12 +38,6 @@ export default function Index() {
     }
     console.log(sol);
 
-    // setSolution(
-    //   sol.map((digit, index) => {
-    //     return digit;
-    //   })
-    // );
-
     return sol;
   };
 
@@ -146,6 +140,19 @@ export default function Index() {
     setSelectedDigit(0);
 
     // console.log(answers);
+  };
+
+  const newGame = () => {
+    setWin(false);
+    setLose(false);
+    setSelectedDigit(0);
+    setInputDigits(
+      inputDigits.map(() => {
+        return "";
+      })
+    );
+    solution.current = generateGame();
+    setAnswers([]);
   };
 
   return (
@@ -367,17 +374,23 @@ export default function Index() {
         />
       </View>
 
-      <Text
+      <TouchableOpacity
+        onPress={newGame}
         style={{
           flex: 1,
           marginTop: 30,
-          fontSize: 24,
-          fontWeight: "bold",
-          color: win ? "#0000ff" : "#ff0000",
         }}
       >
-        {win ? "You Win!" : lose ? "You Lose!" : ""}
-      </Text>
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: win ? "#0000ff" : "#ff0000",
+          }}
+        >
+          {win ? "You Win!" : lose ? "You Lose!" : ""}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
