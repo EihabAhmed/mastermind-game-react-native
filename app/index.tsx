@@ -1,23 +1,13 @@
 import DigitButton from "@/components/DigitButton";
 import DigitLocation from "@/components/DigitLocation";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
-  const [win, setWin] = useState(false);
-  const [lose, setLose] = useState(false);
-
-  const [selectedDigit, setSelectedDigit] = useState(0);
-
-  const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
-  const [solution, setSolution] = useState(["", "", "", ""]);
-
   type Answer = {
     answer: string;
     result: string;
   };
-
-  const [answers, setAnswers] = useState<Answer[]>([]);
 
   const generateGame = () => {
     const sol = [];
@@ -48,16 +38,28 @@ export default function Index() {
     }
     console.log(sol);
 
-    setSolution(
-      sol.map((digit, index) => {
-        return digit;
-      })
-    );
+    // setSolution(
+    //   sol.map((digit, index) => {
+    //     return digit;
+    //   })
+    // );
+
+    return sol;
   };
 
-  useEffect(() => {
-    generateGame();
-  }, []);
+  const [win, setWin] = useState(false);
+  const [lose, setLose] = useState(false);
+
+  const [selectedDigit, setSelectedDigit] = useState(0);
+
+  const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
+
+  const solution = useRef<string[]>([]);
+  if (solution.current.length === 0) {
+    solution.current = generateGame();
+  }
+
+  const [answers, setAnswers] = useState<Answer[]>([]);
 
   const digitClicked = (clickedDigit: string) => {
     setInputDigits(
@@ -69,6 +71,10 @@ export default function Index() {
         }
       })
     );
+
+    const nextDigit = selectedDigit === 3 ? 0 : selectedDigit + 1;
+
+    setSelectedDigit(nextDigit);
   };
 
   const submitAnswer = () => {
@@ -92,8 +98,8 @@ export default function Index() {
     let dots = 0;
 
     for (let i = 0; i < inputDigits.length; i++) {
-      for (let j = 0; j < solution.length; j++) {
-        if (inputDigits[i] === solution[j]) {
+      for (let j = 0; j < solution.current.length; j++) {
+        if (inputDigits[i] === solution.current[j]) {
           if (i === j) {
             stars++;
           } else {
@@ -108,8 +114,7 @@ export default function Index() {
       inputDigits[0] + inputDigits[1] + inputDigits[2] + inputDigits[3];
 
     let result = "";
-    // console.log(stars);
-    // console.log(dots);
+
     for (let i = 0; i < stars; i++) {
       result = result + "*";
     }
@@ -127,6 +132,7 @@ export default function Index() {
       setWin(true);
       return;
     } else if (answers.length === 9) {
+      // current answer is the 10th wrong answer
       setLose(true);
       return;
     }
@@ -170,42 +176,59 @@ export default function Index() {
         <View
           style={{
             marginTop: 10,
-            width: 150,
-            height: 70,
-            borderWidth: 1,
             flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "flex-end",
-            paddingBottom: 10,
+            alignItems: "center",
           }}
         >
-          <DigitLocation
-            digitLocation={0}
-            selectedDigit={selectedDigit}
-            digit={inputDigits[0]}
-            onPress={setSelectedDigit}
-          />
+          <Text
+            style={{
+              fontSize: 16,
+              color: "blue",
+              fontWeight: "bold",
+            }}
+          >
+            Trial {win || lose ? answers.length : answers.length + 1}:
+          </Text>
+          <View
+            style={{
+              marginStart: 10,
+              width: 150,
+              height: 70,
+              borderWidth: 1,
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "flex-end",
+              paddingBottom: 10,
+            }}
+          >
+            <DigitLocation
+              digitLocation={0}
+              selectedDigit={selectedDigit}
+              digit={inputDigits[0]}
+              onPress={setSelectedDigit}
+            />
 
-          <DigitLocation
-            digitLocation={1}
-            selectedDigit={selectedDigit}
-            digit={inputDigits[1]}
-            onPress={setSelectedDigit}
-          />
+            <DigitLocation
+              digitLocation={1}
+              selectedDigit={selectedDigit}
+              digit={inputDigits[1]}
+              onPress={setSelectedDigit}
+            />
 
-          <DigitLocation
-            digitLocation={2}
-            selectedDigit={selectedDigit}
-            digit={inputDigits[2]}
-            onPress={setSelectedDigit}
-          />
+            <DigitLocation
+              digitLocation={2}
+              selectedDigit={selectedDigit}
+              digit={inputDigits[2]}
+              onPress={setSelectedDigit}
+            />
 
-          <DigitLocation
-            digitLocation={3}
-            selectedDigit={selectedDigit}
-            digit={inputDigits[3]}
-            onPress={setSelectedDigit}
-          />
+            <DigitLocation
+              digitLocation={3}
+              selectedDigit={selectedDigit}
+              digit={inputDigits[3]}
+              onPress={setSelectedDigit}
+            />
+          </View>
         </View>
 
         <View
@@ -313,7 +336,7 @@ export default function Index() {
         </TouchableOpacity>
 
         <FlatList
-          data={answers}
+          data={answers.toReversed()}
           renderItem={({ item, index }) => (
             <View
               style={{
@@ -321,7 +344,7 @@ export default function Index() {
                 marginBottom: 5,
               }}
             >
-              <Text>{index + 1})</Text>
+              <Text>{answers.length - index})</Text>
 
               <Text
                 style={{ fontSize: 14, textAlign: "center", marginStart: 10 }}
@@ -338,7 +361,7 @@ export default function Index() {
             marginTop: 10,
             height: "40%",
             flexGrow: 0,
-            width: "30%",
+            width: "50%",
           }}
           showsVerticalScrollIndicator={false}
         />
