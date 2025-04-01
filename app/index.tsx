@@ -9,7 +9,7 @@ export default function Index() {
 
   const [selectedDigit, setSelectedDigit] = useState(0);
 
-  const [digitsStrings, setDigitsStrings] = useState(["", "", "", ""]);
+  const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
   const [solution, setSolution] = useState(["", "", "", ""]);
 
   type Answer = {
@@ -60,8 +60,8 @@ export default function Index() {
   }, []);
 
   const digitClicked = (clickedDigit: string) => {
-    setDigitsStrings(
-      digitsStrings.map((digit, index) => {
+    setInputDigits(
+      inputDigits.map((digit, index) => {
         if (index === selectedDigit) {
           return clickedDigit;
         } else {
@@ -72,16 +72,16 @@ export default function Index() {
   };
 
   const submitAnswer = () => {
-    for (let i = 0; i < digitsStrings.length; i++) {
-      if (digitsStrings[i] === "") {
+    for (let i = 0; i < inputDigits.length; i++) {
+      if (inputDigits[i] === "") {
         Alert.alert("Invalid answer", "Please enter all digits");
         return;
       }
     }
 
-    for (let i = 0; i < digitsStrings.length - 1; i++) {
-      for (let j = i + 1; j < digitsStrings.length; j++) {
-        if (digitsStrings[i] === digitsStrings[j]) {
+    for (let i = 0; i < inputDigits.length - 1; i++) {
+      for (let j = i + 1; j < inputDigits.length; j++) {
+        if (inputDigits[i] === inputDigits[j]) {
           Alert.alert("Invalid answer", "Digits cannot be repeated");
           return;
         }
@@ -91,9 +91,9 @@ export default function Index() {
     let stars = 0;
     let dots = 0;
 
-    for (let i = 0; i < digitsStrings.length; i++) {
+    for (let i = 0; i < inputDigits.length; i++) {
       for (let j = 0; j < solution.length; j++) {
-        if (digitsStrings[i] === solution[j]) {
+        if (inputDigits[i] === solution[j]) {
           if (i === j) {
             stars++;
           } else {
@@ -105,7 +105,7 @@ export default function Index() {
     }
 
     const inputAnswer =
-      digitsStrings[0] + digitsStrings[1] + digitsStrings[2] + digitsStrings[3];
+      inputDigits[0] + inputDigits[1] + inputDigits[2] + inputDigits[3];
 
     let result = "";
     // console.log(stars);
@@ -125,9 +125,19 @@ export default function Index() {
 
     if (stars === 4) {
       setWin(true);
+      return;
     } else if (answers.length === 9) {
       setLose(true);
+      return;
     }
+
+    setInputDigits(
+      inputDigits.map(() => {
+        return "";
+      })
+    );
+
+    setSelectedDigit(0);
 
     // console.log(answers);
   };
@@ -172,28 +182,28 @@ export default function Index() {
           <DigitLocation
             digitLocation={0}
             selectedDigit={selectedDigit}
-            digit={digitsStrings[0]}
+            digit={inputDigits[0]}
             onPress={setSelectedDigit}
           />
 
           <DigitLocation
             digitLocation={1}
             selectedDigit={selectedDigit}
-            digit={digitsStrings[1]}
+            digit={inputDigits[1]}
             onPress={setSelectedDigit}
           />
 
           <DigitLocation
             digitLocation={2}
             selectedDigit={selectedDigit}
-            digit={digitsStrings[2]}
+            digit={inputDigits[2]}
             onPress={setSelectedDigit}
           />
 
           <DigitLocation
             digitLocation={3}
             selectedDigit={selectedDigit}
-            digit={digitsStrings[3]}
+            digit={inputDigits[3]}
             onPress={setSelectedDigit}
           />
         </View>
