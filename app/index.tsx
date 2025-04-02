@@ -190,7 +190,7 @@ export default function Index() {
           <Text
             style={{
               fontSize: 16,
-              color: "blue",
+              color: answers.length < 7 ? "blue" : "red",
               fontWeight: "bold",
             }}
           >
@@ -247,12 +247,14 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="1"
+            gameOver={win || lose}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="2"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -260,6 +262,7 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="3"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -267,6 +270,7 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="4"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -274,6 +278,7 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="5"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -288,12 +293,14 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="6"
+            gameOver={win || lose}
             onPress={digitClicked}
           />
 
           <DigitButton
             selectedDigit={selectedDigit}
             digit="7"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -301,6 +308,7 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="8"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -308,6 +316,7 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="9"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -315,18 +324,20 @@ export default function Index() {
           <DigitButton
             selectedDigit={selectedDigit}
             digit="0"
+            gameOver={win || lose}
             marginStart={5}
             onPress={digitClicked}
           />
         </View>
 
         <TouchableOpacity
+          disabled={win || lose}
           onPress={submitAnswer}
           style={{
             marginTop: 10,
             padding: 6,
             borderRadius: 6,
-            backgroundColor: "#666666",
+            backgroundColor: win || lose ? "#cccccc" : "#666666",
             minWidth: "30%",
             alignItems: "center",
           }}

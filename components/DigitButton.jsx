@@ -1,14 +1,22 @@
 import { Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 
-const DigitButton = ({ selectedDigit, digit, onPress, marginStart = 0 }) => {
+const DigitButton = ({
+  selectedDigit,
+  digit,
+  gameOver,
+  onPress,
+  marginStart = 0,
+}) => {
   useEffect(() => {
-    if (selectedDigit === 0 && digit === "0") {
+    if (gameOver) {
+      setDisabled(true);
+    } else if (selectedDigit === 0 && digit === "0") {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [selectedDigit, digit]);
+  }, [selectedDigit, digit, gameOver]);
 
   const [disabled, setDisabled] = useState(false);
 
