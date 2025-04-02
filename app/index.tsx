@@ -160,6 +160,7 @@ export default function Index() {
       style={{
         flex: 1,
         alignItems: "center",
+        backgroundColor: "#eeeeee",
       }}
     >
       <View
@@ -384,22 +385,41 @@ export default function Index() {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          color: win ? "#0000ff" : "#ff0000",
+        }}
+      >
+        {win
+          ? "You Win!"
+          : lose
+          ? `You Lose!, number is: ${solution.current[0]}${solution.current[1]}${solution.current[2]}${solution.current[3]}`
+          : ""}
+      </Text>
 
       <TouchableOpacity
+        disabled={!(win || lose)}
         onPress={newGame}
         style={{
-          flex: 1,
-          marginTop: 30,
+          marginTop: 10,
+          marginBottom: 30,
+          padding: 6,
+          borderRadius: 6,
+          backgroundColor: win || lose ? "#666666" : "#eeeeee",
+          minWidth: "30%",
+          alignItems: "center",
         }}
       >
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 16,
             fontWeight: "bold",
-            color: win ? "#0000ff" : "#ff0000",
+            color: win || lose ? "white" : "#eeeeee",
           }}
         >
-          {win ? "You Win!" : lose ? "You Lose!" : ""}
+          New Game
         </Text>
       </TouchableOpacity>
     </View>
