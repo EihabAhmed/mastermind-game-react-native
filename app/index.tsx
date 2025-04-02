@@ -126,7 +126,7 @@ export default function Index() {
       result = result + "*";
     }
     for (let i = 0; i < dots; i++) {
-      result = result + ".";
+      result = result + "-";
     }
 
     const answer: Answer = {
@@ -168,6 +168,24 @@ export default function Index() {
     );
     solution.current = generateGame();
     setAnswers([]);
+  };
+
+  const checkDigitButtonDisabled = (digit: string) => {
+    if (win || lose) {
+      return true;
+    }
+
+    if (selectedDigit === 0 && digit === "0") {
+      return true;
+    }
+
+    for (let i = 0; i < inputDigits.length; i++) {
+      if (inputDigits[i] === digit) {
+        return true;
+      }
+    }
+
+    return false;
   };
 
   return (
@@ -261,40 +279,35 @@ export default function Index() {
           }}
         >
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="1"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("1")}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="2"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("2")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="3"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("3")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="4"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("4")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="5"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("5")}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -307,40 +320,35 @@ export default function Index() {
           }}
         >
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="6"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("6")}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="7"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("7")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="8"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("8")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="9"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("9")}
             marginStart={5}
             onPress={digitClicked}
           />
 
           <DigitButton
-            selectedDigit={selectedDigit}
             digit="0"
-            gameOver={win || lose}
+            disabled={checkDigitButtonDisabled("0")}
             marginStart={5}
             onPress={digitClicked}
           />
@@ -411,7 +419,7 @@ export default function Index() {
         {win
           ? "You Win!"
           : lose
-          ? `You Lose!, number is: ${solution.current[0]}${solution.current[1]}${solution.current[2]}${solution.current[3]}`
+          ? `You Lose! Number is: ${solution.current[0]}${solution.current[1]}${solution.current[2]}${solution.current[3]}`
           : ""}
       </Text>
 

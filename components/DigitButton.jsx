@@ -1,25 +1,6 @@
 import { Text, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
 
-const DigitButton = ({
-  selectedDigit,
-  digit,
-  gameOver,
-  onPress,
-  marginStart = 0,
-}) => {
-  useEffect(() => {
-    if (gameOver) {
-      setDisabled(true);
-    } else if (selectedDigit === 0 && digit === "0") {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [selectedDigit, digit, gameOver]);
-
-  const [disabled, setDisabled] = useState(false);
-
+const DigitButton = ({ digit, disabled, onPress, marginStart = 0 }) => {
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -37,7 +18,7 @@ const DigitButton = ({
         style={{
           fontSize: 16,
           fontWeight: "bold",
-          color: disabled ? "gray" : "black",
+          color: disabled ? "#a0a0a0" : "black",
         }}
       >
         {digit}
