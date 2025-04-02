@@ -1,6 +1,6 @@
 import DigitButton from "@/components/DigitButton";
 import DigitLocation from "@/components/DigitLocation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
@@ -48,12 +48,25 @@ export default function Index() {
 
   const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
 
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
   const solution = useRef<string[]>([]);
   if (solution.current.length === 0) {
     solution.current = generateGame();
   }
 
   const [answers, setAnswers] = useState<Answer[]>([]);
+
+  useEffect(() => {
+    for (let i = 0; i < inputDigits.length; i++) {
+      if (inputDigits[i] === "") {
+        setSubmitDisabled(true);
+        return;
+      }
+    }
+
+    setSubmitDisabled(false);
+  }, [inputDigits]);
 
   const digitClicked = (clickedDigit: string) => {
     setInputDigits(
@@ -138,6 +151,8 @@ export default function Index() {
     );
 
     setSelectedDigit(0);
+
+    setSubmitDisabled(true);
 
     // console.log(answers);
   };
@@ -332,13 +347,14 @@ export default function Index() {
         </View>
 
         <TouchableOpacity
-          disabled={win || lose}
+          disabled={win || lose || submitDisabled}
           onPress={submitAnswer}
           style={{
             marginTop: 10,
             padding: 6,
             borderRadius: 6,
-            backgroundColor: win || lose ? "#cccccc" : "#666666",
+            backgroundColor:
+              win || lose || submitDisabled ? "#cccccc" : "#666666",
             minWidth: "30%",
             alignItems: "center",
           }}
