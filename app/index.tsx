@@ -189,7 +189,7 @@ export default function Index() {
         >
           <Text
             style={{
-              fontSize: 16,
+              fontSize: answers.length < 7 ? 16 : 24,
               color: answers.length < 7 ? "blue" : "red",
               fontWeight: "bold",
             }}
