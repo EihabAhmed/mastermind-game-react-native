@@ -44,7 +44,7 @@ export default function Index() {
   const [win, setWin] = useState(false);
   const [lose, setLose] = useState(false);
 
-  const [selectedDigit, setSelectedDigit] = useState(0);
+  const [selectedDigitLocation, setSelectedDigitLocation] = useState(0);
 
   const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
 
@@ -71,7 +71,7 @@ export default function Index() {
   const digitClicked = (clickedDigit: string) => {
     setInputDigits(
       inputDigits.map((digit, index) => {
-        if (index === selectedDigit) {
+        if (index === selectedDigitLocation) {
           return clickedDigit;
         } else {
           return digit;
@@ -79,9 +79,10 @@ export default function Index() {
       })
     );
 
-    const nextDigit = selectedDigit === 3 ? 0 : selectedDigit + 1;
+    const nextDigit =
+      selectedDigitLocation === 3 ? 0 : selectedDigitLocation + 1;
 
-    setSelectedDigit(nextDigit);
+    setSelectedDigitLocation(nextDigit);
   };
 
   const submitAnswer = () => {
@@ -150,7 +151,7 @@ export default function Index() {
       })
     );
 
-    setSelectedDigit(0);
+    setSelectedDigitLocation(0);
 
     setSubmitDisabled(true);
 
@@ -160,7 +161,7 @@ export default function Index() {
   const newGame = () => {
     setWin(false);
     setLose(false);
-    setSelectedDigit(0);
+    setSelectedDigitLocation(0);
     setInputDigits(
       inputDigits.map(() => {
         return "";
@@ -175,7 +176,7 @@ export default function Index() {
       return true;
     }
 
-    if (selectedDigit === 0 && digit === "0") {
+    if (selectedDigitLocation === 0 && digit === "0") {
       return true;
     }
 
@@ -244,30 +245,30 @@ export default function Index() {
           >
             <DigitLocation
               digitLocation={0}
-              selectedDigit={selectedDigit}
+              selectedDigitLocation={selectedDigitLocation}
               digit={inputDigits[0]}
-              onPress={setSelectedDigit}
+              digitLocationPressed={setSelectedDigitLocation}
             />
 
             <DigitLocation
               digitLocation={1}
-              selectedDigit={selectedDigit}
+              selectedDigitLocation={selectedDigitLocation}
               digit={inputDigits[1]}
-              onPress={setSelectedDigit}
+              digitLocationPressed={setSelectedDigitLocation}
             />
 
             <DigitLocation
               digitLocation={2}
-              selectedDigit={selectedDigit}
+              selectedDigitLocation={selectedDigitLocation}
               digit={inputDigits[2]}
-              onPress={setSelectedDigit}
+              digitLocationPressed={setSelectedDigitLocation}
             />
 
             <DigitLocation
               digitLocation={3}
-              selectedDigit={selectedDigit}
+              selectedDigitLocation={selectedDigitLocation}
               digit={inputDigits[3]}
-              onPress={setSelectedDigit}
+              digitLocationPressed={setSelectedDigitLocation}
             />
           </View>
         </View>
@@ -281,35 +282,35 @@ export default function Index() {
           <DigitButton
             digit="1"
             disabled={checkDigitButtonDisabled("1")}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="2"
             disabled={checkDigitButtonDisabled("2")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="3"
             disabled={checkDigitButtonDisabled("3")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="4"
             disabled={checkDigitButtonDisabled("4")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="5"
             disabled={checkDigitButtonDisabled("5")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
         </View>
 
@@ -322,35 +323,35 @@ export default function Index() {
           <DigitButton
             digit="6"
             disabled={checkDigitButtonDisabled("6")}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="7"
             disabled={checkDigitButtonDisabled("7")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="8"
             disabled={checkDigitButtonDisabled("8")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="9"
             disabled={checkDigitButtonDisabled("9")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
 
           <DigitButton
             digit="0"
             disabled={checkDigitButtonDisabled("0")}
             marginStart={5}
-            onPress={digitClicked}
+            digitButtonPressed={digitClicked}
           />
         </View>
 

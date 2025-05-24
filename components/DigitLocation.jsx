@@ -1,8 +1,13 @@
 import { Pressable, Text, View } from "react-native";
 
-const DigitLocation = ({ digitLocation, selectedDigit, digit, onPress }) => {
+const DigitLocation = ({
+  digitLocation,
+  selectedDigitLocation,
+  digit,
+  digitLocationPressed,
+}) => {
   return (
-    <Pressable onPress={() => onPress(digitLocation)}>
+    <Pressable onPress={() => digitLocationPressed(digitLocation)}>
       <Text
         style={{
           marginBottom: 10,
@@ -18,7 +23,7 @@ const DigitLocation = ({ digitLocation, selectedDigit, digit, onPress }) => {
           width: 25,
           height: 2,
           backgroundColor:
-            selectedDigit === digitLocation ? "black" : "lightgray",
+            selectedDigitLocation === digitLocation ? "black" : "lightgray",
         }}
       ></View>
     </Pressable>

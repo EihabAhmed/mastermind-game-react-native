@@ -1,10 +1,15 @@
 import { Text, TouchableOpacity } from "react-native";
 
-const DigitButton = ({ digit, disabled, onPress, marginStart = 0 }) => {
+const DigitButton = ({
+  digit,
+  disabled,
+  digitButtonPressed,
+  marginStart = 0,
+}) => {
   return (
     <TouchableOpacity
       disabled={disabled}
-      onPress={() => onPress(digit)}
+      onPress={() => digitButtonPressed(digit)}
       style={{
         backgroundColor: "lightgray",
         marginStart: marginStart,
