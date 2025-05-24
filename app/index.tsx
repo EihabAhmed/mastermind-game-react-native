@@ -228,7 +228,7 @@ export default function Index() {
               fontWeight: "bold",
             }}
           >
-            Trial {win || lose ? answers.length : answers.length + 1}:
+            Attempt {win || lose ? answers.length : answers.length + 1}:
           </Text>
           <View
             style={{
