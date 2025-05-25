@@ -125,6 +125,9 @@ export default function Index() {
 
     let result = "";
 
+    if (stars == 0 && dots == 0) {
+      result = "nothing";
+    }
     for (let i = 0; i < stars; i++) {
       result = result + "*";
     }
@@ -393,12 +396,21 @@ export default function Index() {
               <Text>{answers.length - index})</Text>
 
               <Text
-                style={{ fontSize: 14, textAlign: "center", marginStart: 10 }}
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  marginStart: 10,
+                }}
               >
                 {item.answer}
               </Text>
 
-              <Text style={{ fontSize: 24, marginStart: 10 }}>
+              <Text
+                style={{
+                  fontSize: item.result === "nothing" ? 16 : 24,
+                  marginStart: 20,
+                }}
+              >
                 {item.result}
               </Text>
             </View>
