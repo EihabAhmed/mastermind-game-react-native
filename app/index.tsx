@@ -55,7 +55,7 @@ export default function Index() {
   //   solution.current = generateGame();
   // }
 
-  const [solution, setSolution] = useState(() => generateGame());
+  const [solution, setSolution] = useState(generateGame);
 
   const [answers, setAnswers] = useState<Answer[]>([]);
 
