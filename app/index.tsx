@@ -50,10 +50,12 @@ export default function Index() {
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
-  const solution = useRef<string[]>([]);
-  if (solution.current.length === 0) {
-    solution.current = generateGame();
-  }
+  // const solution = useRef<string[]>([]);
+  // if (solution.current.length === 0) {
+  //   solution.current = generateGame();
+  // }
+
+  const [solution, setSolution] = useState<string[]>(() => generateGame());
 
   const [answers, setAnswers] = useState<Answer[]>([]);
 
@@ -106,8 +108,8 @@ export default function Index() {
     let dots = 0;
 
     for (let i = 0; i < inputDigits.length; i++) {
-      for (let j = 0; j < solution.current.length; j++) {
-        if (inputDigits[i] === solution.current[j]) {
+      for (let j = 0; j < solution.length; j++) {
+        if (inputDigits[i] === solution[j]) {
           if (i === j) {
             stars++;
           } else {
@@ -167,7 +169,7 @@ export default function Index() {
         return "";
       })
     );
-    solution.current = generateGame();
+    setSolution(generateGame());
     setAnswers([]);
   };
 
@@ -420,7 +422,7 @@ export default function Index() {
         {win
           ? "You Win!"
           : lose
-          ? `You Lose! Number is: ${solution.current[0]}${solution.current[1]}${solution.current[2]}${solution.current[3]}`
+          ? `You Lose! Number is: ${solution[0]}${solution[1]}${solution[2]}${solution[3]}`
           : ""}
       </Text>
 
