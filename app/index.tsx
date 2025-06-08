@@ -48,7 +48,8 @@ export default function Index() {
 
   const [inputDigits, setInputDigits] = useState(["", "", "", ""]);
 
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  // Not needed
+  // const [submitDisabled, setSubmitDisabled] = useState(true);
 
   // const solution = useRef<string[]>([]);
   // if (solution.current.length === 0) {
@@ -59,16 +60,17 @@ export default function Index() {
 
   const [answers, setAnswers] = useState<Answer[]>([]);
 
-  useEffect(() => {
-    for (let i = 0; i < inputDigits.length; i++) {
-      if (inputDigits[i] === "") {
-        setSubmitDisabled(true);
-        return;
-      }
-    }
+  // Not needed
+  // useEffect(() => {
+  //   for (let i = 0; i < inputDigits.length; i++) {
+  //     if (inputDigits[i] === "") {
+  //       setSubmitDisabled(true);
+  //       return;
+  //     }
+  //   }
 
-    setSubmitDisabled(false);
-  }, [inputDigits]);
+  //   setSubmitDisabled(false);
+  // }, [inputDigits]);
 
   const digitClicked = (clickedDigit: string) => {
     setInputDigits(
@@ -158,7 +160,7 @@ export default function Index() {
 
     setSelectedDigitLocation(0);
 
-    setSubmitDisabled(true);
+    // setSubmitDisabled(true);
 
     // console.log(answers);
   };
@@ -172,6 +174,7 @@ export default function Index() {
         return "";
       })
     );
+
     setSolution(generateGame());
     setAnswers([]);
   };
@@ -187,6 +190,16 @@ export default function Index() {
 
     for (let i = 0; i < inputDigits.length; i++) {
       if (inputDigits[i] === digit) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const checkSubmitDisabled = () => {
+    for (let i = 0; i < inputDigits.length; i++) {
+      if (inputDigits[i] === "") {
         return true;
       }
     }
@@ -361,14 +374,14 @@ export default function Index() {
         </View>
 
         <TouchableOpacity
-          disabled={win || lose || submitDisabled}
+          disabled={win || lose || checkSubmitDisabled()}
           onPress={submitAnswer}
           style={{
             marginTop: 10,
             padding: 6,
             borderRadius: 6,
             backgroundColor:
-              win || lose || submitDisabled ? "#cccccc" : "#666666",
+              win || lose || checkSubmitDisabled() ? "#cccccc" : "#666666",
             minWidth: "30%",
             alignItems: "center",
           }}
